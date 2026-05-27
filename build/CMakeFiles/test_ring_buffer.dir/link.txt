@@ -1,0 +1,1 @@
+/usr/bin/cc -Wl,--dependency-file=CMakeFiles/test_ring_buffer.dir/link.d CMakeFiles/test_ring_buffer.dir/tests/test_ring_buffer.c.o -o test_ring_buffer  libgravity-protocol.a

@@ -1,0 +1,1 @@
+/usr/bin/cc -Wl,--dependency-file=CMakeFiles/gravity-trace.dir/link.d "CMakeFiles/gravity-trace.dir/tools/gravity-trace.c.o" -o gravity-trace  libgravity-protocol.a

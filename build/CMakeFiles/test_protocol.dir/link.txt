@@ -1,0 +1,1 @@
+/usr/bin/cc -Wl,--dependency-file=CMakeFiles/test_protocol.dir/link.d CMakeFiles/test_protocol.dir/tests/test_protocol.c.o -o test_protocol  libgravity-protocol.a
