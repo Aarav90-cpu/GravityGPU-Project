@@ -1,3 +1,3 @@
-./qemu
-./build
-./scripts
+/qemu
+/build
+/scripts

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libgravity-protocol.a "CMakeFiles/gravity-protocol.dir/protocol/src/gravity_protocol.c.o" "CMakeFiles/gravity-protocol.dir/protocol/src/gravity_formats.c.o"
-/usr/bin/ranlib libgravity-protocol.a
