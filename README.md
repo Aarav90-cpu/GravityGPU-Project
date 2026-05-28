@@ -1,4 +1,9 @@
 # GravityGPU-Project
 Metal-to-Vulkan GPU paravirtualization stack
 
-Only tested on ("ARCH LINUX"). I cannot say this will work on all distros!
+Unable to Maintain due to other work! Giving Away for 2 Conditions!
+
+
+ - The code I have written is under my copyright!
+
+ - I will have and maintain the original License!
