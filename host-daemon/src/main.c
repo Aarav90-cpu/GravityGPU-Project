@@ -58,7 +58,7 @@ static void signal_handler(int sig)
  * ═══════════════════════════════════════════════════════════════════════ */
 
 typedef struct {
-    const char* shmem_path;     /* Path to shared memory file (e.g., /dev/shm/gravity-gpu) */
+    const char* shmem_path;     /* POSIX shm name (e.g., /gravity-gpu) */
     size_t      shmem_size;     /* Size of shared memory region */
     bool        verbose;        /* Verbose logging */
     bool        trace_commands; /* Log every command */
@@ -67,7 +67,7 @@ typedef struct {
 
 static void config_defaults(gravity_config_t* cfg)
 {
-    cfg->shmem_path     = "/dev/shm/gravity-gpu";
+    cfg->shmem_path     = "/gravity-gpu";
     cfg->shmem_size     = 512 * 1024 * 1024;  /* 512 MB */
     cfg->verbose        = false;
     cfg->trace_commands = false;
@@ -80,11 +80,22 @@ static void config_defaults(gravity_config_t* cfg)
 
 static void* open_shared_memory(const gravity_config_t* cfg)
 {
-    int fd = open(cfg->shmem_path, O_RDWR | O_CREAT, 0666);
+    /*
+     * Use shm_open() to open the same POSIX shared memory object that
+     * QEMU's gravity-gpu device creates. This ensures both sides
+     * are reading/writing the same physical memory region.
+     */
+    int fd = shm_open(cfg->shmem_path, O_RDWR, 0666);
     if (fd < 0) {
-        fprintf(stderr, "[gravityd] ERROR: Cannot open shared memory at '%s': %s\n",
-                cfg->shmem_path, strerror(errno));
-        return NULL;
+        /* If QEMU hasn't created it yet, try creating it ourselves */
+        fd = shm_open(cfg->shmem_path, O_RDWR | O_CREAT, 0666);
+        if (fd < 0) {
+            fprintf(stderr, "[gravityd] ERROR: Cannot open shared memory '%s': %s\n",
+                    cfg->shmem_path, strerror(errno));
+            return NULL;
+        }
+        /* Ensure it is world-rw regardless of umask */
+        fchmod(fd, 0666);
     }
 
     /* Ensure the file is the right size */

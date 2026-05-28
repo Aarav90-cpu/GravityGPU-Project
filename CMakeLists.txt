@@ -62,6 +62,7 @@ target_link_libraries(gravityd PRIVATE
     gravity-protocol
     ${Vulkan_LIBRARIES}
     Threads::Threads
+    rt
     m
 )
 target_compile_definitions(gravityd PRIVATE

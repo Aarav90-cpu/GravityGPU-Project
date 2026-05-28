@@ -38,7 +38,7 @@
             with real NVIDIA since we use                                      \
             virtio vendor ID) */
 #define GRAVITY_GPU_PCI_REVISION 0x01
-#define GRAVITY_GPU_PCI_CLASS 0x030000 /* VGA compatible controller */
+#define GRAVITY_GPU_PCI_CLASS 0x1200 /* Processing Accelerator */
 #define GRAVITY_GPU_PCI_SUBSYSTEM_VENDOR 0x1AF4
 #define GRAVITY_GPU_PCI_SUBSYSTEM_ID 0x1100
 
@@ -158,10 +158,11 @@ typedef struct GravityGPUState {
   /* BAR0: MMIO control registers */
   MemoryRegion mmio_bar;
 
-  /* BAR2: Shared memory region */
+  /* BAR2: Shared memory region (backed by POSIX shm) */
   MemoryRegion shmem_bar;
   void *shmem_ptr;     /* mmap'd shared memory */
   uint64_t shmem_size; /* Configured size */
+  int shmem_fd;        /* File descriptor for POSIX shared memory */
 
   /* Device state */
   uint32_t device_status;
@@ -189,7 +190,8 @@ typedef struct GravityGPUState {
   char *host_socket_path; /* Path to Unix socket */
 
   /* Properties (set via QEMU command line) */
-  uint32_t hostmem_mb; /* Shared memory size in MB */
+  uint32_t hostmem_mb;    /* Shared memory size in MB */
+  char *shmem_path;       /* Path to shared memory file (default: /dev/shm/gravity-gpu) */
 
 } GravityGPUState;
 

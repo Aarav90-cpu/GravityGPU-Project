@@ -26,9 +26,17 @@
 #include "qapi/error.h"
 #include "qom/object.h"
 
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
+
 #include "gravity-gpu.h"
 #include "../../protocol/include/gravity_ring.h"
 #include "../../protocol/include/gravity_protocol.h"
+
+#define GRAVITY_GPU_DEFAULT_SHMEM_PATH "/gravity-gpu"
 
 /* ═══════════════════════════════════════════════════════════════════════
  * BAR0 MMIO — Control Register Read/Write
@@ -263,11 +271,12 @@ static const MemoryRegionOps gravity_gpu_shmem_ops = {
     },
 };
 
+
 /* ═══════════════════════════════════════════════════════════════════════
  * Interrupt Helpers
  * ═══════════════════════════════════════════════════════════════════════ */
 
-static void gravity_gpu_raise_irq(GravityGPUState *s, uint32_t irq_bits)
+static void G_GNUC_UNUSED gravity_gpu_raise_irq(GravityGPUState *s, uint32_t irq_bits)
 {
     s->irq_status |= irq_bits;
 
@@ -284,6 +293,7 @@ static void gravity_gpu_raise_irq(GravityGPUState *s, uint32_t irq_bits)
 static void gravity_gpu_realize(PCIDevice *pci_dev, Error **errp)
 {
     GravityGPUState *s = GRAVITY_GPU(pci_dev);
+    const char *shm_name;
 
     /* Calculate shared memory size from property */
     if (s->hostmem_mb == 0) {
@@ -295,20 +305,48 @@ static void gravity_gpu_realize(PCIDevice *pci_dev, Error **errp)
                   "gravity-gpu: initializing with %u MB shared memory\n",
                   s->hostmem_mb);
 
-    /* Allocate shared memory backing */
-    s->shmem_ptr = g_malloc0(s->shmem_size);
-    if (!s->shmem_ptr) {
-        error_setg(errp, "gravity-gpu: failed to allocate %lu bytes of shared memory",
-                   (unsigned long)s->shmem_size);
+    /* Open POSIX shared memory so both QEMU and gravityd see the same region */
+    shm_name = s->shmem_path ? s->shmem_path : GRAVITY_GPU_DEFAULT_SHMEM_PATH;
+    s->shmem_fd = shm_open(shm_name, O_CREAT | O_RDWR, 0666);
+    if (s->shmem_fd < 0) {
+        error_setg(errp, "gravity-gpu: shm_open('%s') failed: %s",
+                   shm_name, strerror(errno));
         return;
     }
+    
+    /* Ensure world-rw regardless of umask */
+    fchmod(s->shmem_fd, 0666);
+
+    if (ftruncate(s->shmem_fd, s->shmem_size) < 0) {
+        error_setg(errp, "gravity-gpu: ftruncate failed: %s", strerror(errno));
+        close(s->shmem_fd);
+        s->shmem_fd = -1;
+        return;
+    }
+
+    s->shmem_ptr = mmap(NULL, s->shmem_size, PROT_READ | PROT_WRITE,
+                        MAP_SHARED, s->shmem_fd, 0);
+    if (s->shmem_ptr == MAP_FAILED) {
+        error_setg(errp, "gravity-gpu: mmap failed: %s", strerror(errno));
+        close(s->shmem_fd);
+        s->shmem_fd = -1;
+        s->shmem_ptr = NULL;
+        return;
+    }
+
+    qemu_log_mask(LOG_UNIMP,
+                  "gravity-gpu: POSIX shm '%s' mapped at %p (%u MB)\n",
+                  shm_name, s->shmem_ptr, s->hostmem_mb);
 
     /* Initialize ring buffer in shared memory */
     if (gravity_ring_init_host(s->shmem_ptr, (uint32_t)s->shmem_size,
                                 GRAVITY_DEFAULT_CMD_RING_SIZE,
                                 GRAVITY_DEFAULT_COMP_RING_SIZE) < 0) {
         error_setg(errp, "gravity-gpu: failed to initialize ring buffer");
-        g_free(s->shmem_ptr);
+        munmap(s->shmem_ptr, s->shmem_size);
+        close(s->shmem_fd);
+        s->shmem_ptr = NULL;
+        s->shmem_fd = -1;
         return;
     }
 
@@ -317,7 +355,18 @@ static void gravity_gpu_realize(PCIDevice *pci_dev, Error **errp)
                           "gravity-gpu-mmio", GRAVITY_GPU_BAR0_SIZE);
     pci_register_bar(pci_dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->mmio_bar);
 
-    /* Set up BAR2: Shared memory region */
+    /*
+     * Set up BAR2: Shared memory region backed by POSIX shm.
+     *
+     * We MUST use memory_region_init_io() here so the BAR is mapped as MMIO
+     * rather than system RAM. If we use memory_region_init_ram_ptr() or
+     * memory_region_init_ram_device_ptr(), QEMU/UEFI treats it as RAM and adds
+     * it to the memory map, which severely fragments the usable physical
+     * address space during early boot and causes macOS to hang at EXITBS:START.
+     *
+     * The shmem ops will correctly read/write directly into s->shmem_ptr
+     * (which is backed by the POSIX shm file).
+     */
     memory_region_init_io(&s->shmem_bar, OBJECT(s), &gravity_gpu_shmem_ops, s,
                           "gravity-gpu-shmem", s->shmem_size);
     pci_register_bar(pci_dev, 2,
@@ -351,7 +400,7 @@ static void gravity_gpu_realize(PCIDevice *pci_dev, Error **errp)
     qemu_log_mask(LOG_UNIMP,
                   "gravity-gpu: device realized successfully\n"
                   "  BAR0: MMIO 4KB control registers\n"
-                  "  BAR2: %u MB shared memory (ring + data)\n"
+                  "  BAR2: %u MB shared memory (POSIX shm, ring + data)\n"
                   "  Features: 0x%08x\n",
                   s->hostmem_mb, s->device_features);
 }
@@ -367,9 +416,15 @@ static void gravity_gpu_exit(PCIDevice *pci_dev)
         s->host_socket_fd = -1;
     }
 
-    if (s->shmem_ptr) {
-        g_free(s->shmem_ptr);
+    if (s->shmem_ptr && s->shmem_ptr != MAP_FAILED) {
+        munmap(s->shmem_ptr, s->shmem_size);
         s->shmem_ptr = NULL;
+    }
+
+    if (s->shmem_fd >= 0) {
+        close(s->shmem_fd);
+        s->shmem_fd = -1;
+        /* Don't shm_unlink — the daemon may still be using it */
     }
 }
 
@@ -427,6 +482,7 @@ static Property gravity_gpu_properties[] = {
     DEFINE_PROP_UINT32("hostmem", GravityGPUState, hostmem_mb,
                        GRAVITY_GPU_DEFAULT_SHMEM_SIZE / (1024 * 1024)),
     DEFINE_PROP_STRING("socket-path", GravityGPUState, host_socket_path),
+    DEFINE_PROP_STRING("shmem-path", GravityGPUState, shmem_path),
     DEFINE_PROP_END_OF_LIST(),
 };
 
@@ -453,7 +509,7 @@ static void gravity_gpu_class_init(ObjectClass *klass, void *data)
     dc->vmsd        = &vmstate_gravity_gpu;
     device_class_set_props(dc, gravity_gpu_properties);
 
-    set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
 }
 
 static void gravity_gpu_instance_init(Object *obj)

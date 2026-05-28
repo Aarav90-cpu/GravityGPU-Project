@@ -25,7 +25,18 @@
 
 #include <stdint.h>
 #include <stddef.h>
+#ifdef KERNEL
+#ifdef __cplusplus
+extern "C" {
+#endif
+void *memcpy(void *dest, const void *src, size_t n);
+void *memset(void *s, int c, size_t n);
+#ifdef __cplusplus
+}
+#endif
+#else
 #include <string.h>
+#endif
 #include "gravity_protocol.h"
 
 #ifdef __cplusplus

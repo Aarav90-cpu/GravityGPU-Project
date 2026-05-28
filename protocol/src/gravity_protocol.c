@@ -5,7 +5,17 @@
  */
 
 #include "gravity_protocol.h"
+#ifdef KERNEL
+#ifdef __cplusplus
+extern "C" {
+#endif
+int strcmp(const char *s1, const char *s2);
+#ifdef __cplusplus
+}
+#endif
+#else
 #include <string.h>
+#endif
 
 /* ═══════════════════════════════════════════════════════════════════════
  * Command Name Table

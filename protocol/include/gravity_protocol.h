@@ -30,6 +30,69 @@ extern "C" {
 #define GRAVITY_PROTOCOL_MAGIC          0x47525659  /* "GRVY" */
 
 /* ═══════════════════════════════════════════════════════════════════════
+ * BAR0 Register Map (MMIO Control Registers)
+ * ═══════════════════════════════════════════════════════════════════════ */
+
+#define GRAVITY_REG_MAGIC 0x000 /* R:  Always reads 0x47525659 ("GRVY") */
+#define GRAVITY_REG_VERSION 0x004 /* R:  Protocol version (major << 16 | minor) */
+#define GRAVITY_REG_DEVICE_STATUS 0x008 /* R:  Device status bits */
+#define GRAVITY_REG_FEATURES 0x00C      /* R:  Supported feature bits */
+
+/* Shared memory info (read-only) */
+#define GRAVITY_REG_SHMEM_SIZE_LO 0x010 /* R:  Shared memory size (low 32) */
+#define GRAVITY_REG_SHMEM_SIZE_HI 0x014 /* R:  Shared memory size (high 32) */
+
+/* Guest → Host doorbell (write-only) */
+#define GRAVITY_REG_DOORBELL 0x020 /* W:  Writing any value notifies host of new commands in ring buffer */
+
+/* Interrupt control */
+#define GRAVITY_REG_IRQ_STATUS 0x030 /* R/W: Interrupt status (write 1 to clear) */
+#define GRAVITY_REG_IRQ_MASK 0x034 /* R/W: Interrupt mask (1 = enabled) */
+
+/* Guest feature negotiation */
+#define GRAVITY_REG_GUEST_FEATURES 0x040 /* W:  Guest writes its feature bits here */
+#define GRAVITY_REG_GUEST_STATUS 0x044 /* W:  Guest status (INIT, READY, ERROR) */
+
+/* Display configuration */
+#define GRAVITY_REG_DISPLAY_WIDTH 0x050  /* R/W: Display width in pixels */
+#define GRAVITY_REG_DISPLAY_HEIGHT 0x054 /* R/W: Display height in pixels */
+#define GRAVITY_REG_DISPLAY_FORMAT 0x058 /* R/W: Display pixel format */
+#define GRAVITY_REG_DISPLAY_STRIDE 0x05C /* R:   Display stride (bytes per row) */
+
+/* Debug */
+#define GRAVITY_REG_DEBUG 0x0F0      /* R/W: Debug scratch register */
+#define GRAVITY_REG_CMD_COUNT 0x0F4  /* R:   Total commands processed */
+#define GRAVITY_REG_ERROR_CODE 0x0F8 /* R:   Last error code */
+
+/* ═══════════════════════════════════════════════════════════════════════
+ * Status and Feature Bits
+ * ═══════════════════════════════════════════════════════════════════════ */
+
+/* Device status bits (GRAVITY_REG_DEVICE_STATUS) */
+#define GRAVITY_STATUS_READY (1 << 0)     /* Device initialized */
+#define GRAVITY_STATUS_HOST_CONN (1 << 1) /* Host daemon connected */
+#define GRAVITY_STATUS_ERROR (1 << 15)    /* Device error */
+
+/* Feature bits (both device and guest) */
+#define GRAVITY_FEAT_RING_BUFFER (1 << 0) /* Ring buffer transport */
+#define GRAVITY_FEAT_SHADER_MSL (1 << 1)  /* MSL shader support */
+#define GRAVITY_FEAT_SHADER_AIR (1 << 2)  /* Metal IR shader support */
+#define GRAVITY_FEAT_COMPUTE (1 << 3)     /* Compute pipeline support */
+#define GRAVITY_FEAT_BLIT (1 << 4)        /* Blit encoder support */
+#define GRAVITY_FEAT_MSIX (1 << 5)        /* MSI-X interrupts */
+#define GRAVITY_FEAT_DISPLAY (1 << 6)     /* Display/presentation support */
+
+/* Guest status (GRAVITY_REG_GUEST_STATUS) */
+#define GRAVITY_GUEST_INIT 0x01  /* Guest driver loaded */
+#define GRAVITY_GUEST_READY 0x02 /* Guest completed negotiation */
+#define GRAVITY_GUEST_ERROR 0xFF /* Guest encountered error */
+
+/* IRQ bits */
+#define GRAVITY_IRQ_CMD_COMPLETE (1 << 0) /* Command(s) completed */
+#define GRAVITY_IRQ_HOST_EVENT (1 << 1)   /* Host sent event */
+#define GRAVITY_IRQ_ERROR (1 << 7)        /* Error occurred */
+
+/* ═══════════════════════════════════════════════════════════════════════
  * Limits
  * ═══════════════════════════════════════════════════════════════════════ */
 
