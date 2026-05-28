@@ -1,0 +1,80 @@
+[
+{
+  "directory": "/home/aarav/MACOSGRAPHICS/build",
+  "command": "/usr/bin/cc  -I/home/aarav/MACOSGRAPHICS/protocol/include -g -std=gnu11 -o CMakeFiles/gravity-protocol.dir/protocol/src/gravity_protocol.c.o -c /home/aarav/MACOSGRAPHICS/protocol/src/gravity_protocol.c",
+  "file": "/home/aarav/MACOSGRAPHICS/protocol/src/gravity_protocol.c",
+  "output": "CMakeFiles/gravity-protocol.dir/protocol/src/gravity_protocol.c.o"
+},
+{
+  "directory": "/home/aarav/MACOSGRAPHICS/build",
+  "command": "/usr/bin/cc  -I/home/aarav/MACOSGRAPHICS/protocol/include -g -std=gnu11 -o CMakeFiles/gravity-protocol.dir/protocol/src/gravity_formats.c.o -c /home/aarav/MACOSGRAPHICS/protocol/src/gravity_formats.c",
+  "file": "/home/aarav/MACOSGRAPHICS/protocol/src/gravity_formats.c",
+  "output": "CMakeFiles/gravity-protocol.dir/protocol/src/gravity_formats.c.o"
+},
+{
+  "directory": "/home/aarav/MACOSGRAPHICS/build",
+  "command": "/usr/bin/cc  -I/home/aarav/MACOSGRAPHICS/protocol/include -I/home/aarav/MACOSGRAPHICS/host-daemon/src -g -std=gnu11 -o CMakeFiles/gravityd.dir/host-daemon/src/main.c.o -c /home/aarav/MACOSGRAPHICS/host-daemon/src/main.c",
+  "file": "/home/aarav/MACOSGRAPHICS/host-daemon/src/main.c",
+  "output": "CMakeFiles/gravityd.dir/host-daemon/src/main.c.o"
+},
+{
+  "directory": "/home/aarav/MACOSGRAPHICS/build",
+  "command": "/usr/bin/cc  -I/home/aarav/MACOSGRAPHICS/protocol/include -I/home/aarav/MACOSGRAPHICS/host-daemon/src -g -std=gnu11 -o CMakeFiles/gravityd.dir/host-daemon/src/vk_device.c.o -c /home/aarav/MACOSGRAPHICS/host-daemon/src/vk_device.c",
+  "file": "/home/aarav/MACOSGRAPHICS/host-daemon/src/vk_device.c",
+  "output": "CMakeFiles/gravityd.dir/host-daemon/src/vk_device.c.o"
+},
+{
+  "directory": "/home/aarav/MACOSGRAPHICS/build",
+  "command": "/usr/bin/cc  -I/home/aarav/MACOSGRAPHICS/protocol/include -I/home/aarav/MACOSGRAPHICS/host-daemon/src -g -std=gnu11 -o CMakeFiles/gravityd.dir/host-daemon/src/resource_tracker.c.o -c /home/aarav/MACOSGRAPHICS/host-daemon/src/resource_tracker.c",
+  "file": "/home/aarav/MACOSGRAPHICS/host-daemon/src/resource_tracker.c",
+  "output": "CMakeFiles/gravityd.dir/host-daemon/src/resource_tracker.c.o"
+},
+{
+  "directory": "/home/aarav/MACOSGRAPHICS/build",
+  "command": "/usr/bin/cc  -I/home/aarav/MACOSGRAPHICS/protocol/include -I/home/aarav/MACOSGRAPHICS/host-daemon/src -g -std=gnu11 -o CMakeFiles/gravityd.dir/host-daemon/src/cmd_processor.c.o -c /home/aarav/MACOSGRAPHICS/host-daemon/src/cmd_processor.c",
+  "file": "/home/aarav/MACOSGRAPHICS/host-daemon/src/cmd_processor.c",
+  "output": "CMakeFiles/gravityd.dir/host-daemon/src/cmd_processor.c.o"
+},
+{
+  "directory": "/home/aarav/MACOSGRAPHICS/build",
+  "command": "/usr/bin/cc  -I/home/aarav/MACOSGRAPHICS/protocol/include -I/home/aarav/MACOSGRAPHICS/host-daemon/src -g -std=gnu11 -o CMakeFiles/gravityd.dir/host-daemon/src/metal_to_vulkan.c.o -c /home/aarav/MACOSGRAPHICS/host-daemon/src/metal_to_vulkan.c",
+  "file": "/home/aarav/MACOSGRAPHICS/host-daemon/src/metal_to_vulkan.c",
+  "output": "CMakeFiles/gravityd.dir/host-daemon/src/metal_to_vulkan.c.o"
+},
+{
+  "directory": "/home/aarav/MACOSGRAPHICS/build",
+  "command": "/usr/bin/cc  -I/home/aarav/MACOSGRAPHICS/protocol/include -I/home/aarav/MACOSGRAPHICS/host-daemon/src -g -std=gnu11 -o CMakeFiles/gravityd.dir/host-daemon/src/framebuffer.c.o -c /home/aarav/MACOSGRAPHICS/host-daemon/src/framebuffer.c",
+  "file": "/home/aarav/MACOSGRAPHICS/host-daemon/src/framebuffer.c",
+  "output": "CMakeFiles/gravityd.dir/host-daemon/src/framebuffer.c.o"
+},
+{
+  "directory": "/home/aarav/MACOSGRAPHICS/build",
+  "command": "/usr/bin/cc  -I/home/aarav/MACOSGRAPHICS/protocol/include -I/home/aarav/MACOSGRAPHICS/host-daemon/src -g -std=gnu11 -o CMakeFiles/gravityd.dir/host-daemon/src/shader_compiler.c.o -c /home/aarav/MACOSGRAPHICS/host-daemon/src/shader_compiler.c",
+  "file": "/home/aarav/MACOSGRAPHICS/host-daemon/src/shader_compiler.c",
+  "output": "CMakeFiles/gravityd.dir/host-daemon/src/shader_compiler.c.o"
+},
+{
+  "directory": "/home/aarav/MACOSGRAPHICS/build",
+  "command": "/usr/bin/cc  -I/home/aarav/MACOSGRAPHICS/protocol/include -I/home/aarav/MACOSGRAPHICS/host-daemon/src -g -std=gnu11 -o CMakeFiles/gravityd.dir/host-daemon/src/shader_cache.c.o -c /home/aarav/MACOSGRAPHICS/host-daemon/src/shader_cache.c",
+  "file": "/home/aarav/MACOSGRAPHICS/host-daemon/src/shader_cache.c",
+  "output": "CMakeFiles/gravityd.dir/host-daemon/src/shader_cache.c.o"
+},
+{
+  "directory": "/home/aarav/MACOSGRAPHICS/build",
+  "command": "/usr/bin/cc  -I/home/aarav/MACOSGRAPHICS/protocol/include -g -std=gnu11 -o CMakeFiles/test_protocol.dir/tests/test_protocol.c.o -c /home/aarav/MACOSGRAPHICS/tests/test_protocol.c",
+  "file": "/home/aarav/MACOSGRAPHICS/tests/test_protocol.c",
+  "output": "CMakeFiles/test_protocol.dir/tests/test_protocol.c.o"
+},
+{
+  "directory": "/home/aarav/MACOSGRAPHICS/build",
+  "command": "/usr/bin/cc  -I/home/aarav/MACOSGRAPHICS/protocol/include -g -std=gnu11 -o CMakeFiles/test_ring_buffer.dir/tests/test_ring_buffer.c.o -c /home/aarav/MACOSGRAPHICS/tests/test_ring_buffer.c",
+  "file": "/home/aarav/MACOSGRAPHICS/tests/test_ring_buffer.c",
+  "output": "CMakeFiles/test_ring_buffer.dir/tests/test_ring_buffer.c.o"
+},
+{
+  "directory": "/home/aarav/MACOSGRAPHICS/build",
+  "command": "/usr/bin/cc  -I/home/aarav/MACOSGRAPHICS/protocol/include -g -std=gnu11 -o CMakeFiles/gravity-trace.dir/tools/gravity-trace.c.o -c /home/aarav/MACOSGRAPHICS/tools/gravity-trace.c",
+  "file": "/home/aarav/MACOSGRAPHICS/tools/gravity-trace.c",
+  "output": "CMakeFiles/gravity-trace.dir/tools/gravity-trace.c.o"
+}
+]

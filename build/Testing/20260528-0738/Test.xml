@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="(empty)"
+	BuildStamp="20260528-0738-Experimental"
+	Name="(empty)"
+	Generator="ctest-4.3.3"
+	CompilerName=""
+	CompilerVersion=""
+	OSName="Linux"
+	Hostname="archlinux"
+	OSRelease="7.0.9-zen2-1-zen"
+	OSVersion="#1 ZEN SMP PREEMPT_DYNAMIC Fri, 22 May 2026 19:24:51 +0000"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="186"
+	ModelName="13th Gen Intel(R) Core(TM) i3-1315U"
+	ProcessorCacheSize="10240"
+	NumberOfLogicalCPU="8"
+	NumberOfPhysicalCPU="6"
+	TotalVirtualMemory="3821"
+	TotalPhysicalMemory="7643"
+	LogicalProcessorsPerPhysical="1"
+	ProcessorClockFrequency="2300.000000"
+	>
+	<Testing>
+		<StartDateTime>May 28 14:57 IST</StartDateTime>
+		<StartTestTime>1779960438</StartTestTime>
+		<TestList/>
+		<EndDateTime>May 28 14:57 IST</EndDateTime>
+		<EndTestTime>1779960438</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>

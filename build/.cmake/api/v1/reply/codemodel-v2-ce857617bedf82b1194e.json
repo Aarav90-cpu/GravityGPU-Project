@@ -1,0 +1,151 @@
+{
+	"configurations" : 
+	[
+		{
+			"abstractTargets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Threads::Threads::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Threads__Threads-Debug-f1829512ed16665db2da.json",
+					"name" : "Threads::Threads",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Vulkan::Headers::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Vulkan__Headers-Debug-5d0c54fe48b03c93937e.json",
+					"name" : "Vulkan::Headers",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Vulkan::Vulkan::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Vulkan__Vulkan-Debug-d88ab3d53e51de1a466a.json",
+					"name" : "Vulkan::Vulkan",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Vulkan::glslangValidator::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Vulkan__glslangValidator-Debug-732e7004a1481229f80c.json",
+					"name" : "Vulkan::glslangValidator",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "Vulkan::glslc::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Vulkan__glslc-Debug-414ac6da40d01f532de4.json",
+					"name" : "Vulkan::glslc",
+					"projectIndex" : 0
+				}
+			],
+			"directories" : 
+			[
+				{
+					"abstractTargetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					],
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-ad1379760e9c11b120af.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"abstractTargetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "GravityGPU",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "gravity-protocol::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-gravity-protocol-Debug-68387bfced642ca64d89.json",
+					"name" : "gravity-protocol",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "gravity-trace::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-gravity-trace-Debug-c4a99abdeeed99e3c4e2.json",
+					"name" : "gravity-trace",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "gravityd::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-gravityd-Debug-958f2c7887d3ee3cefea.json",
+					"name" : "gravityd",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "test_protocol::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-test_protocol-Debug-b73e640cb8d06f7a3fea.json",
+					"name" : "test_protocol",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "test_ring_buffer::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-test_ring_buffer-Debug-756780fb2b1a7574c2f6.json",
+					"name" : "test_ring_buffer",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/aarav/MACOSGRAPHICS/build",
+		"source" : "/home/aarav/MACOSGRAPHICS"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 10
+	}
+}

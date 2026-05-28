@@ -62,6 +62,9 @@
             <key>IOProviderClass</key>
             <string>IOPCIDevice</string>
 
+            <key>IOUserClientClass</key>
+            <string>GravityGPUUserClient</string>
+
             <!-- Match our custom PCI device -->
             <key>IOPCIMatch</key>
             <string>0x10de1af4</string>
